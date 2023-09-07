@@ -1,0 +1,29 @@
+# @app.route('/<name>') is a way to pass a variable from the URL to the function
+@app.route('/<name>')
+def user(name):
+    return f'Hello {name}'
+
+# this is a redirect
+# you have to put the function name in url_for not the route
+@app.route('/admin/')
+def admin():
+    return redirect(url_for('user', name='admin!!'))
+
+<!doctype html>
+<html>
+<head>
+    <title>Home Page</title>
+</head>
+<body>
+    <h1>Home Page</h1>
+    <p>{{content}}</p>
+    {% for x in range(10) %}
+        {% if x % 2 == 1 %}
+            <p>{{x}}</p>
+        {% endif %}
+    {% endfor %}
+    {% for x in people %}
+        <p>{{x}}</p>
+    {% endfor %}
+</body>
+</html>
