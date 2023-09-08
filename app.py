@@ -48,6 +48,5 @@ def comps():
 def items():
     return render_template('items.html')
 
-# this is what actually starts the server
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)
