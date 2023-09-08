@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 {% block title %}Home Page{% endblock %}
 {% block content %}
-    <div class="container">
-        <div class="row height d-flex justify-content-center align-items-center">
-            <div class="col-md-8">
-                <div class="search">
-                <i class="fa fa-search"></i>
-                <input type="text" class="form-control" placeholder="Summoner Name">
-                <button class="btn btn-primary">Search</button>
-                </div>
-            </div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 mt-3"> <!-- Added mt-3 for top margin -->
+            <!-- Search Bar -->
+            <form class="form-inline d-flex" action="/search" method="get">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search Summoner Name" aria-label="Search" name="sn">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
         </div>
     </div>
+</div>
 {% endblock %}
