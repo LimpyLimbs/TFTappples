@@ -1,6 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request
 import requests
-import json
 import os
 
 app = Flask(__name__)
@@ -51,4 +50,4 @@ def items():
     return render_template('items.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True)
+    app.run(host='0.0.0.0', port=80, debug=False)
