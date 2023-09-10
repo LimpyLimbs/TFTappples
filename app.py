@@ -1,6 +1,7 @@
 from flask import Flask, redirect, url_for, render_template, request
 import requests
 import json
+import os
 
 app = Flask(__name__)
 
@@ -17,7 +18,8 @@ def search():
 
 @app.route('/<summonername>')
 def summoner(summonername):
-    api_key={"X-Riot-Token": ""}
+    key_value=os.environ.get('RIOT_API_KEY')
+    api_key={"X-Riot-Token": key_value}
     summonerdata=requests.get(f'https://na1.api.riotgames.com/tft/summoner/v1/summoners/by-name/{summonername}', headers=api_key)
     statuscode=str(summonerdata)
     puuid=summonerdata.json().get('puuid')

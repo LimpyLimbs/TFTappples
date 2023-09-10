@@ -13,5 +13,7 @@ RUN pip install -r requirements.txt
 # Expose port 80 for Gunicorn
 EXPOSE 80
 
+ENV RIOT_API_KEY=null
+
 # Define the command to run Gunicorn with your Flask app
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:80", "app:app"]
