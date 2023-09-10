@@ -17,7 +17,7 @@ def search():
 
 @app.route('/<summonername>')
 def summoner(summonername):
-    api_key={"X-Riot-Token": "RGAPI-a9c4d526-c250-4004-8d76-fd1228a9ffb9"}
+    api_key={"X-Riot-Token": ""}
     summonerdata=requests.get(f'https://na1.api.riotgames.com/tft/summoner/v1/summoners/by-name/{summonername}', headers=api_key)
     statuscode=str(summonerdata)
     puuid=summonerdata.json().get('puuid')
