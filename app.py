@@ -41,13 +41,9 @@ def searcherror(summonername):
 def augments():
     return render_template('augments.html')
 
-@app.route('/comps')
-def comps():
-    return render_template('comps.html')
-
 @app.route('/items')
 def items():
     return render_template('items.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=False)
+    app.run(host='0.0.0.0', port=80)
