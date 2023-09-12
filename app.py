@@ -13,9 +13,6 @@ def home():
 def search():  
     # request.args.get('sn') takes the query from index.html search bar and uses that as a variable
     # the query is redirected to the 'summoner' function and passes the 'query' variable to 'summonername' 
-    print('this is running')
-    print('this is running')
-    print('this is running')
     query=request.args.get('sn')
     return redirect(url_for('summoner', summoner_name=query))
 
@@ -31,9 +28,11 @@ def summoner(summoner_name):
     
     # instantiates summoner object
     summoner_object=create_summoner(summoner_data.json())
+    match_history=summoner_object.get_match_history()
+    summoner_object.get_summoner_rank()
 
     if status_code == '<Response [200]>':
-        return render_template('summonername.html', summoner_name=summoner_object.name, summoner_data=summoner_object.summoner_level, summoner_match_history=summoner_object.get_match_history())
+        return render_template('summonername.html', summoner_name=summoner_object.name, summoner_data=summoner_object.summoner_level, summoner_match_history=match_history)
     else :
         return redirect(url_for('searcherror', summoner_name=summoner_name))
 
