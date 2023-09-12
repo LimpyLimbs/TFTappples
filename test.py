@@ -19,6 +19,6 @@ status_code=str(summoner_data)
     
 # instantiates summoner object
 summoner_object=create_summoner(summoner_data.json())
-print(summoner_object.name)
+print(summoner_object.id)
 
 

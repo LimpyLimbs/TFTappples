@@ -28,8 +28,8 @@ def summoner(summoner_name):
     
     # instantiates summoner object
     summoner_object=create_summoner(summoner_data.json())
-    # print(summoner_object.name)
-    # print(summoner_object.puuid)
+    print(summoner_object.name)
+    print(summoner_object.puuid)
 
     if status_code == '<Response [200]>':
         return render_template('summonername.html', summoner_name=summoner_object.name, summonerdata=summoner_object.summoner_level)
@@ -49,7 +49,7 @@ def items():
     return render_template('items.html')
 
 def create_summoner(summoner_data):
-    summoner=Summoner(id=summoner_data['id'], account_id=summoner_data['accountId'], puuid=summoner_data['puuid'], name=summoner_data['name'], summoner_level=summoner_data['summonerLevel'])
+    summoner=Summoner(summoner_data['id'], summoner_data['accountId'], summoner_data['puuid'], summoner_data['name'], summoner_data['summonerLevel'])
     return summoner
 
 if __name__ == '__main__':
