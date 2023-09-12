@@ -1,6 +1,7 @@
 from flask import Flask, redirect, url_for, render_template, request
 import requests
 import os
+from summoner import Summoner
 
 app = Flask(__name__)
 
@@ -13,29 +14,31 @@ def search():
     # request.args.get('sn') takes the query from index.html search bar and uses that as a variable
     # the query is redirected to the 'summoner' function and passes the 'query' variable to 'summonername' 
     query=request.args.get('sn')
-    return redirect(url_for('summoner', summonername=query))
+    return redirect(url_for('summoner', summoner_name=query))
 
-@app.route('/<summonername>')
-def summoner(summonername):
-    key_value=os.environ.get('RIOT_API_KEY')
-    api_key={"X-Riot-Token": key_value}
-    summonerdata=requests.get(f'https://na1.api.riotgames.com/tft/summoner/v1/summoners/by-name/{summonername}', headers=api_key)
-    statuscode=str(summonerdata)
-    puuid=summonerdata.json().get('puuid')
+@app.route('/<summoner_name>')
+def summoner(summoner_name):
+    # gets env variable for riot API key
+    api_key_value=os.environ.get('RIOT_API_KEY')
+    api_key_header={"X-Riot-Token": api_key_value}
     
-    matchlist_json=requests.get(f'https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/{puuid}/ids', headers=api_key)
-    matchlist=list(matchlist_json.json())
-    print(type(matchlist))
-    singlematch=requests.get(f'https://americas.api.riotgames.com/tft/match/v1/matches/{matchlist[0]}', headers=api_key)
+    # API call
+    summoner_data=requests.get(f'https://na1.api.riotgames.com/tft/summoner/v1/summoners/by-name/{summoner_name}', headers=api_key_header)
+    status_code=str(summoner_data)
     
-    if statuscode == '<Response [200]>':
-        return render_template('summonername.html', summonername=summonerdata.json().get('name'), summonerdata=summonerdata.json(), matchlist=matchlist, singlematch=singlematch.json())
+    # instantiates summoner object
+    summoner_object=create_summoner(summoner_data.json())
+    # print(summoner_object.name)
+    # print(summoner_object.puuid)
+
+    if status_code == '<Response [200]>':
+        return render_template('summonername.html', summoner_name=summoner_object.name, summonerdata=summoner_object.summoner_level)
     else :
-        return redirect(url_for('searcherror', summonername=summonername))
+        return redirect(url_for('searcherror', summoner_name=summoner_name))
 
-@app.route('/searcherror/<summonername>')
-def searcherror(summonername):
-    return render_template('searcherror.html', name=summonername)
+@app.route('/searcherror/<summoner_name>')
+def searcherror(summoner_name):
+    return render_template('searcherror.html', name=summoner_name)
 
 @app.route('/augments')
 def augments():
@@ -44,6 +47,10 @@ def augments():
 @app.route('/items')
 def items():
     return render_template('items.html')
+
+def create_summoner(summoner_data):
+    summoner=Summoner(id=summoner_data['id'], account_id=summoner_data['accountId'], puuid=summoner_data['puuid'], name=summoner_data['name'], summoner_level=summoner_data['summonerLevel'])
+    return summoner
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
