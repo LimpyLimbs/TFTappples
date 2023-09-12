@@ -5,3 +5,5 @@ class Summoner:
         self.puuid=puuid
         self.name=name
         self.summoner_level=summoner_level
+        
+    def get_match_history
