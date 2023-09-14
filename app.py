@@ -5,6 +5,10 @@ from summoner import Summoner
 
 app = Flask(__name__)
 
+def create_summoner(summoner_data):
+    summoner=Summoner(summoner_data['id'], summoner_data['accountId'], summoner_data['puuid'], summoner_data['name'], summoner_data['summonerLevel'])
+    return summoner
+
 @app.route('/', methods=['GET'])
 def home():
     return render_template('index.html')
@@ -26,12 +30,8 @@ def summoner(summoner_name):
     summoner_data=requests.get(f'https://na1.api.riotgames.com/tft/summoner/v1/summoners/by-name/{summoner_name}', headers=api_key_header)
     status_code=str(summoner_data)
     
-    # instantiates summoner object
-    summoner_object=create_summoner(summoner_data.json())
-    match_history=summoner_object.get_match_history()
-    summoner_object.get_summoner_rank()
-
     if status_code == '<Response [200]>':
+        summoner_object=create_summoner(summoner_data.json())
         return render_template('summonername.html', summoner_name=summoner_object.name, summoner_data=summoner_object.summoner_level, summoner_match_history=match_history)
     else :
         return redirect(url_for('searcherror', summoner_name=summoner_name))
@@ -47,10 +47,6 @@ def augments():
 @app.route('/items')
 def items():
     return render_template('items.html')
-
-def create_summoner(summoner_data):
-    summoner=Summoner(summoner_data['id'], summoner_data['accountId'], summoner_data['puuid'], summoner_data['name'], summoner_data['summonerLevel'])
-    return summoner
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)

@@ -9,7 +9,7 @@ class Summoner:
         self.puuid=puuid
         self.name=name
         self.summoner_level=summoner_level
-        
+
     def get_match_history(self):
         # gets env variable for riot API key
         api_key_value=os.environ.get('RIOT_API_KEY')
@@ -30,6 +30,3 @@ class Summoner:
         api_key_header={"X-Riot-Token": api_key_value}
         ranked_data=requests.get(f'https://na1.api.riotgames.com/tft/league/v1/entries/by-summoner/{self.id}', headers=api_key_header).json()
         print(ranked_data)
-
-        
-        
