@@ -23,5 +23,18 @@ class Summoner:
         return match_history
     
     def get_summoner_rank(self):
-        ranked_data=requests.get(f'https://na1.api.riotgames.com/tft/league/v1/entries/by-summoner/{self.id}', headers=self.api_key_header).json()
-        print(ranked_data)
+        # for some reason riot returns a list with only one dictionary in it
+        ranked_data_list=requests.get(f'https://na1.api.riotgames.com/tft/league/v1/entries/by-summoner/{self.id}', headers=self.api_key_header).json()
+        
+        # checks if list is empty (list returns empty if summoner is unranked)
+        if len(ranked_data_list):
+            ranked_data=ranked_data_list[0]
+            top_4s=ranked_data['wins']
+            bot_4s=ranked_data['losses']
+            total_games=top_4s + bot_4s
+            top_4_percentage=(top_4s/total_games) * 100
+            bot_4_percentage=(bot_4s/total_games) * 100
+            summoner_rank=f'{ranked_data["tier"]} {ranked_data["rank"]} {ranked_data["leaguePoints"]}LP Top4={top_4s} {round(top_4_percentage)}% Bot4={bot_4s} {round(bot_4_percentage)}%'
+            return summoner_rank
+        else :
+            return 'Unranked'

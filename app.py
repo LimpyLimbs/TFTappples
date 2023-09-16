@@ -32,7 +32,7 @@ def summoner(summoner_name):
     
     if status_code == '<Response [200]>':
         summoner_object=create_summoner(summoner_data.json())
-        return render_template('summonername.html', summoner_name=summoner_object.name, summoner_data=summoner_object.summoner_level)
+        return render_template('summonername.html', summoner_name=summoner_object.name, summoner_rank=summoner_object.get_summoner_rank(), summoner_level=summoner_object.summoner_level, summoner_match_history=summoner_object.get_match_history())
     else :
         return redirect(url_for('searcherror', summoner_name=summoner_name))
 

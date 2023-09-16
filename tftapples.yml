@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: tftapples
-        image: limpylimbs/tftapples:${IMAGE_TAG}
+        image: limpylimbs/tftapples:35
         imagePullPolicy: Always
         ports:
         - containerPort: 80
