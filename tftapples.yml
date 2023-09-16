@@ -19,12 +19,12 @@ spec:
         image: limpylimbs/tftapples:latest
         ports:
         - containerPort: 80
-          env:
-          - name: RIOT_API_KEY
-            valueFrom:
-              secretKeyRef: 
-                name: tftapples-secrets
-                key: riot_api_key
+        env:
+        - name: RIOT_API_KEY
+          valueFrom:
+            secretKeyRef: 
+              name: tftapples-secrets
+              key: riot_api_key
 ---
 apiVersion: v1
 kind: Service
