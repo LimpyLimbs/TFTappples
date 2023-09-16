@@ -23,8 +23,6 @@ spec:
       - name: tftapples
         image: limpylimbs/tftapples:latest
         imagePullPolicy: Always
-        restartPolicy: Always
-        terminationGracePeriodSeconds: 30
         ports:
         - containerPort: 80
         env:
@@ -33,6 +31,8 @@ spec:
             secretKeyRef: 
               name: tftapples-secrets
               key: riot_api_key
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
 ---
 apiVersion: v1
 kind: Service
