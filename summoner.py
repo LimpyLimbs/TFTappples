@@ -1,6 +1,5 @@
 import os
 import requests
-from match import Match
 
 class Summoner:
     def __init__(self, id, account_id, puuid, name, summoner_level):
@@ -13,8 +12,9 @@ class Summoner:
         self.api_key_header={"X-Riot-Token": self.api_key_value}
 
     def get_match_history(self):
+        from match import Match
         # API call for a list of match IDs
-        match_list=requests.get(f'https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/{self.puuid}/ids', headers=self.api_key_header).json()
+        match_list=requests.get(f'https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/{self.puuid}/ids?start=0&count=2', headers=self.api_key_header).json()
         
         match_history=[]
         for match_id in match_list:
@@ -29,12 +29,19 @@ class Summoner:
         # checks if list is empty (list returns empty if summoner is unranked)
         if len(ranked_data_list):
             ranked_data=ranked_data_list[0]
+            tier=ranked_data['tier']
+            rank=ranked_data['rank']
+            league_points=ranked_data['leaguePoints']
+            summoner_rank=f'{tier} {rank} {league_points}LP'
+            if tier == 'CHALLENGER' or tier == 'GRANDMASTER' or tier == 'MASTER':
+                summoner_rank=f'{tier} {league_points}LP'
+            
             top_4s=ranked_data['wins']
             bot_4s=ranked_data['losses']
             total_games=top_4s + bot_4s
             top_4_percentage=round((top_4s/total_games) * 100)
             bot_4_percentage=round((bot_4s/total_games) * 100)
-            summoner_rank={'wins':top_4s, 'losses':bot_4s, 'total_games':total_games, 'top_4_percentage':top_4_percentage, 'bot_4_percentage':bot_4_percentage}
-            return summoner_rank
+            summoner_stats={'summoner_rank':summoner_rank, 'wins':top_4s, 'losses':bot_4s, 'total_games':total_games, 'top_4_percentage':top_4_percentage, 'bot_4_percentage':bot_4_percentage}
+            return summoner_stats
         else :
             return 'Unranked'
