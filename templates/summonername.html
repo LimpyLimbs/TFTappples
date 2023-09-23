@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block title %}{{summoner_name}} - Set 9.5 Stats - TFT Stats{% endblock %}
 {% block content %}
-<p>{{summoner_name}}<p>
-<p>{{summoner_rank}}</p>
-<p>Level: {{summoner_level}}</p>
+<h1>{{summoner_name}}</h1>
+<p>{{summoner_rank['summoner_rank']}}</p>
+<p>Games: {{summoner_rank['total_games']}}</p>
+<p>Top 4 Percentage: {{summoner_rank['top_4_percentage']}}%</p>
+<p>Bot 4 Percentage: {{summoner_rank['bot_4_percentage']}}%</p>
 <h2>Match History</h2>
 <table class="table">
     <thead>
