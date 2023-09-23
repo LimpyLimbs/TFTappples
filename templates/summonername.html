@@ -4,11 +4,8 @@
 <p>{{summoner_name}}<p>
 <p>{{summoner_rank}}</p>
 <p>Level: {{summoner_level}}</p>
-{% for match in summoner_match_history %}
-    <p>{{match.summoner_placement}}</p>
-    <p>{{match.participant_names}}</p>
-{% endfor %}
-<table class="table-borderless">
+<h2>Match History</h2>
+<table class="table">
     <thead>
       <tr>
         <th scope="col">Placement</th>
@@ -23,39 +20,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Summoner 1</td>
-        <td>Summoner 2</td>
-        <td>Summoner 3</td>
-        <td>Summoner 4</td>
-        <td>Summoner 5</td>
-        <td>Summoner 6</td>
-        <td>Summoner 7</td>
-        <td>Summoner 8</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Summoner 1</td>
-        <td>Summoner 2</td>
-        <td>Summoner 3</td>
-        <td>Summoner 4</td>
-        <td>Summoner 5</td>
-        <td>Summoner 6</td>
-        <td>Summoner 7</td>
-        <td>Summoner 8</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Summoner 1</td>
-        <td>Summoner 2</td>
-        <td>Summoner 3</td>
-        <td>Summoner 4</td>
-        <td>Summoner 5</td>
-        <td>Summoner 6</td>
-        <td>Summoner 7</td>
-        <td>Summoner 8</td>
-      </tr>
+    {% for match in summoner_match_history %}
+        <tr>
+            <th scope="row">{{match.summoner_placement}}</th>
+            {% for name in match.participant_names %}
+                <td>{{name}}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
     </tbody>
 </table>
 {% endblock %}

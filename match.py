@@ -22,7 +22,7 @@ class Match:
     def parse_match_info(self):
         self.participants_list=self.match_info['metadata']['participants']
         self.get_participant_names()
-        self.summoner_placement=self.participant_names.index(self.summoner_name)
+        self.summoner_placement=self.participant_names.index(self.summoner_name) + 1
         
     def get_participant_names(self):
         from summoner import Summoner
