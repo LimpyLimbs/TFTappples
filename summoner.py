@@ -14,11 +14,12 @@ class Summoner:
     def get_match_history(self):
         from match import Match
         # API call for a list of match IDs
-        match_list=requests.get(f'https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/{self.puuid}/ids?start=0&count=2', headers=self.api_key_header).json()
+        # ids?start=0&count=5 (count=5 specifies the number of matches to pull)
+        match_list=requests.get(f'https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/{self.puuid}/ids?start=0&count=5', headers=self.api_key_header).json()
         
         match_history=[]
         for match_id in match_list:
-            match=Match(match_id)
+            match=Match(match_id, self.name)
             match_history.append(match)
         return match_history
     

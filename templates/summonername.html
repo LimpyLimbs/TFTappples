@@ -5,6 +5,7 @@
 <p>{{summoner_rank}}</p>
 <p>Level: {{summoner_level}}</p>
 {% for match in summoner_match_history %}
+    <p>{{match.summoner_placement}}</p>
     <p>{{match.participant_names}}</p>
 {% endfor %}
 {% endblock %}

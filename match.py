@@ -2,23 +2,27 @@ import os
 import requests
 
 class Match:
-    def __init__(self, match_id):
+    def __init__(self, match_id, summoner_name):
         self.match_id=match_id
+        self.summoner_name=summoner_name
+        # variables below are blank until set by data from API call is made
         self.match_info={}
         self.participants_list=[]
         self.participant_names=[]
+        self.summoner_placement=0
+        # env vars for riot API
         self.api_key_value=os.environ.get('RIOT_API_KEY')
         self.api_key_header={"X-Riot-Token": self.api_key_value}
         self.get_match_info()
         
     def get_match_info(self):
         self.match_info=requests.get(f'https://americas.api.riotgames.com/tft/match/v1/matches/{self.match_id}', headers=self.api_key_header).json()
-        # self.participants_list=self.match_info['metadata']['participants']
         self.parse_match_info()
         
     def parse_match_info(self):
         self.participants_list=self.match_info['metadata']['participants']
         self.get_participant_names()
+        self.summoner_placement=self.participant_names.index(self.summoner_name)
         
     def get_participant_names(self):
         from summoner import Summoner
